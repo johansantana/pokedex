@@ -38,7 +38,7 @@ onMounted(() => {
         <input
           ref="searchInput"
           type="text"
-          placeholder="Write some pokemon name..."
+          placeholder="Write some pokémon name..."
           v-model="search"
           class="input lg:min-w-[500px] border-b-none bg-white w-full max-w-md input-lg select-none focus:outline-none"
           :class="{ 'rounded-b-none': hasResults }"
