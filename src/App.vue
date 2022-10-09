@@ -21,9 +21,9 @@ const IMAGE_URL =
         <p>Or browse the list</p>
       </div>
     </div>
-    <h2 class="text-4xl font-medium">Pokémon List</h2>
-    <div>
+    <h2 class="text-4xl font-medium mb-6">Pokémon List</h2>
+    <main>
       <PokemonList />
-    </div>
+    </main>
   </div>
 </template>
