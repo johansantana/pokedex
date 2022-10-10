@@ -16,6 +16,7 @@ const search = ref(null)
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual('sm')
+const md = breakpoints.isGreater('sm')
 
 watchEffect(() => {
   if (sm.value) isOpen.value = true
@@ -59,11 +60,11 @@ onClickOutside(inputRef, e => {
   <div
     v-if="isOpen"
     class="flex min-w-full items-center justify-center top-0"
-    :class="{ 'min-h-screen backdrop-blur-sm backdrop-brightness-95 absolute p-4': !sm }"
+    :class="{ 'min-h-screen backdrop-blur-sm backdrop-brightness-95 absolute p-4': md }"
   >
     <div
       class="min-w-[500px] flex items-center flex-col justify-center relative"
-      :class="{ '-translate-y-60': !sm }"
+      :class="{ '-translate-y-60': md }"
     >
       <input
         ref="inputRef"
