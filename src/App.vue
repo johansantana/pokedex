@@ -33,9 +33,21 @@ const IMAGE_URL =
         </div>
       </section>
     </div>
-    <section>
-      <h2 class="text-4xl font-medium mt-10 mb-6">Pokémon List</h2>
-      <PokemonList />
-    </section>
+    <div class="max-w-[1200px] m-auto">
+      <section
+        class="bg-[url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/898.png')] bg-no-repeat pb-40"
+      >
+        <h2 class="text-4xl font-medium">POTD</h2>
+        <p class="text-2xl italic">(Pokemon of the day)</p>
+        <p class="text-7xl font-semibold mt-6">Calirex</p>
+      </section>
+      <section class="mb-5">
+        <h2 class="text-2xl mt-10 mb-6">Pokémon List</h2>
+        <PokemonList />
+        <p class="max-w-[80%] m-auto w-fit cursor-pointer mt-20 hover:scale-105 transition-transform">
+          More Pokemons ->
+        </p>
+      </section>
+    </div>
   </main>
 </template>
