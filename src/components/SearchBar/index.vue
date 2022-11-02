@@ -11,7 +11,6 @@ const props = defineProps({
 
 const isOpen = ref(false)
 const inputRef = ref(null)
-const hasResults = ref(false)
 const search = ref(null)
 
 const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -21,10 +20,6 @@ const md = breakpoints.isGreater('sm')
 watchEffect(() => {
   if (sm.value) isOpen.value = true
   else isOpen.value = false
-})
-
-watchEffect(() => {
-  if (search.value) hasResults.value = true
 })
 
 if (!sm.value) {
@@ -48,10 +43,6 @@ if (!sm.value) {
   })
 }
 onClickOutside(inputRef, e => {
-  if (sm.value) {
-    hasResults.value = false
-    return
-  }
   isOpen.value = !isOpen.value
 })
 </script>
@@ -59,28 +50,25 @@ onClickOutside(inputRef, e => {
 <template>
   <div
     v-if="isOpen"
-    class="flex min-w-full items-center justify-center top-0"
-    :class="{ 'min-h-screen backdrop-blur-sm backdrop-brightness-95 absolute p-4': md }"
+    class="flex min-w-full items-center justify-center top-0 z-10 absolute"
+    :class="{ 'min-h-screen backdrop-blur-sm backdrop-brightness-95 absolute p-4': md, relative: sm }"
   >
-    <div
-      class="min-w-[500px] flex items-center flex-col justify-center relative"
-      :class="{ '-translate-y-60': md }"
-    >
+    <div class="min-w-[500px] flex items-center flex-col justify-center relative" :class="{ fixed: sm }">
       <input
         ref="inputRef"
         type="text"
         placeholder="Write some pokémon name..."
         v-model="search"
         class="input lg:min-w-[500px] border-b-none bg-white min-w-full max-w-md input-lg select-none focus:outline-none"
-        :class="{ 'rounded-b-none': hasResults, 'input-bordered': sm }"
+        :class="{ 'rounded-b-none': search, 'input-bordered': sm }"
       />
-      <div class="lg:min-w-[500px]">
+      <div class="lg:min-w-[500px] bg-white">
         <!-- Results -->
         <Results
-          v-if="hasResults"
+          v-if="search"
           :search="search"
           class="min-w-[500px]"
-          :class="{ 'border absolute left-0': sm }"
+          :class="{ 'border absolute left-0': sm, 'rounded-b-lg': md }"
         />
       </div>
     </div>
