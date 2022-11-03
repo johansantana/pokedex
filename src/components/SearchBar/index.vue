@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watchEffect } from 'vue'
+import { ref, watch } from 'vue'
 import { useMagicKeys, onClickOutside, whenever, useBreakpoints, breakpointsTailwind } from '@vueuse/core'
 import Results from './Results.vue'
 
@@ -17,7 +17,7 @@ const breakpoints = useBreakpoints(breakpointsTailwind)
 const sm = breakpoints.smallerOrEqual('sm')
 const md = breakpoints.isGreater('sm')
 
-watchEffect(() => {
+watch(sm, () => {
   if (sm.value) isOpen.value = true
   else isOpen.value = false
 })
@@ -35,13 +35,14 @@ if (!sm.value) {
     isOpen.value = !isOpen.value
   })
   whenever(escape, () => (isOpen.value = !isOpen.value))
-  watchEffect(() => {
+  watch(inputRef, () => {
     if (inputRef.value) {
       search.value = null
       inputRef.value.focus()
     }
   })
 }
+
 onClickOutside(inputRef, e => {
   isOpen.value = !isOpen.value
 })
@@ -51,7 +52,7 @@ onClickOutside(inputRef, e => {
   <div
     v-if="isOpen"
     class="flex min-w-full items-center justify-center top-0 z-10 absolute"
-    :class="{ 'min-h-screen backdrop-blur-sm backdrop-brightness-95 absolute p-4': md, relative: sm }"
+    :class="{ 'min-h-full backdrop-blur-sm backdrop-brightness-95 absolute p-4': md, relative: sm }"
   >
     <div class="min-w-[500px] flex items-center flex-col justify-center relative" :class="{ fixed: sm }">
       <input
