@@ -1,6 +1,12 @@
 <script setup>
 import { ref, watch } from 'vue'
-import { useMagicKeys, onClickOutside, whenever, useBreakpoints, breakpointsTailwind } from '@vueuse/core'
+import {
+  useMagicKeys,
+  onClickOutside,
+  whenever,
+  useBreakpoints,
+  breakpointsTailwind
+} from '@vueuse/core'
 import Results from './Results.vue'
 
 const props = defineProps({
@@ -51,10 +57,15 @@ onClickOutside(inputRef, e => {
 <template>
   <div
     v-if="isOpen"
-    class="flex min-w-full items-center justify-center top-0 z-10 absolute"
-    :class="{ 'min-h-full backdrop-blur-sm backdrop-brightness-95 absolute p-4': md, relative: sm }"
+    :class="{
+      'backdrop-blur-sm backdrop-brightness-95 p-4': md,
+      relative: sm
+    }"
   >
-    <div class="min-w-[500px] flex items-center flex-col justify-center relative" :class="{ fixed: sm }">
+    <div
+      class="min-w-[500px] flex items-center flex-col justify-center relative"
+      :class="{ fixed: sm }"
+    >
       <input
         ref="inputRef"
         type="text"
