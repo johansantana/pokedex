@@ -30,6 +30,7 @@ onClickOutside(inputRef, () => {
   <div v-if="props.isOpen" class="backdrop-blur-sm backdrop-brightness-95 p-4">
     <form
       class="min-w-[500px] flex items-center flex-col justify-center relative"
+      @submit.prevent
     >
       <input
         ref="inputRef"
@@ -40,7 +41,7 @@ onClickOutside(inputRef, () => {
         :class="{ 'rounded-b-none': search }"
       />
 
-      <div class="lg:min-w-[500px] bg-white rounded-b-lg overflow-hidden">
+      <div class="bg-white rounded-b-lg overflow-hidden">
         <!-- Results -->
         <Results v-if="search" :search="search" class="max-w-[500px]" />
       </div>

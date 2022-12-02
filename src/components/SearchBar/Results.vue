@@ -1,15 +1,17 @@
 <script setup>
+import { ref } from 'vue'
+
 const props = defineProps({
   search: {
     type: String
   }
 })
+
+const isLoading = ref(true)
 </script>
 
 <template>
-  <div class="bg-white p-5 min-w-full border-t-2 font-light border-gray-100">
-    <p>This is the result component</p>
-    <p>Here will appear Pokémons based on your input search</p>
-    <p class="mt-4">{{ search }}</p>
+  <div class="bg-white min-w-[500px] p-5 border-t-2 font-light border-gray-100">
+    <p>{{ search }}</p>
   </div>
 </template>
