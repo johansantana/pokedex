@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { getPokemonByUrl } from '../../api/pokemon'
-import { checkCachedPokemon } from '../../utils/localStorage'
+import { cachePokemon, checkCachedPokemon } from '../../utils/localStorage'
 
 const props = defineProps({
   pokemonUrl: {
@@ -19,6 +19,7 @@ onBeforeMount(async () => {
     pokemon.value = cachedPokemonData
   } else {
     pokemon.value = await getPokemonByUrl(props.pokemonUrl)
+    cachePokemon(pokemon.value)
   }
   isLoading.value = false
 })
