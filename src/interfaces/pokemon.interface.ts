@@ -21,7 +21,7 @@ export interface Pokemon {
 
 export interface CachedPokemon {
   id: number
-  pokemonData: Pokemon
+  data: Pokemon
 }
 
 interface Type {
