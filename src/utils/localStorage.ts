@@ -1,4 +1,4 @@
-import { Pokemon } from '../ts/interfaces/pokemon.interface'
+import { Pokemon } from '../interfaces/pokemon.interface'
 
 export const initCachedData = () => {
   localStorage.setItem('cachedPokemons', '[]')

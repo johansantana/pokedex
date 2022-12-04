@@ -1,6 +1,6 @@
 import { API } from '.'
 import { capitalize } from 'vue'
-import { Pokemon } from '../ts/interfaces/pokemon.interface'
+import { Pokemon } from '../interfaces/pokemon.interface'
 
 export const getAllPokemons = async () => {
   try {
