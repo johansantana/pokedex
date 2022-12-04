@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { getAllPokemons } from '../../api/pokemon'
 import PokemonCard from './PokemonCard.vue'
-import AppPagination from '../App/AppPagination.vue'
+import AppPagination from '../AppPagination.vue'
 
 const pokemonItemsList = ref([])
 
