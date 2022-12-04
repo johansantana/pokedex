@@ -19,6 +19,11 @@ export interface Pokemon {
   weight: number
 }
 
+export interface CachedPokemon {
+  id: number
+  pokemonData: Pokemon
+}
+
 interface Type {
   slot: number
   type: Ability
