@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import { getPokemonByUrl } from '../../api/pokemon'
-import { capitalize } from '../../utils'
+import { checkCachedPokemon } from '../../utils/localStorage'
 
 const props = defineProps({
   pokemonUrl: {
@@ -10,30 +10,32 @@ const props = defineProps({
   }
 })
 
-const pokemon = ref({})
+const pokemon = ref()
 const isLoading = ref(true)
 
-onBeforeMount(() => {
-  getPokemonByUrl(props.pokemonUrl).then(pokemonData => {
-    pokemon.value = pokemonData
-    pokemon.value.name = capitalize(pokemon.value.name)
-    isLoading.value = false
-  })
+onBeforeMount(async () => {
+  const cachedPokemonData = checkCachedPokemon({ url: props.pokemonUrl })
+  if (cachedPokemonData) {
+    pokemon.value = cachedPokemonData
+  } else {
+    pokemon.value = await getPokemonByUrl(props.pokemonUrl)
+  }
+  isLoading.value = false
 })
 </script>
 
 <template>
   <article
     v-if="!isLoading"
-    class="bg-white border rounded-lg hover:scale-105 cursor-pointer"
+    class="p-3 bg-white border rounded-lg hover:scale-105"
   >
-    <a href="#" class="flex flex-col p-3">
+    <a href="#" class="flex flex-col">
       <img
         :src="pokemon.sprites.front_default"
         :alt="pokemon.name + ' picture'"
       />
       <p>{{ pokemon.name }}</p>
-      <p></p>
     </a>
+    <p></p>
   </article>
 </template>

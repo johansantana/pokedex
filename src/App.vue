@@ -1,6 +1,12 @@
 <script setup>
+import { onBeforeMount } from 'vue'
 import SearchBarHandler from './components/SearchBar/SearchBarHandler.vue'
 import PokemonList from './components/Pokemon/PokemonList.vue'
+import { initCachedData } from './utils/localStorage'
+
+onBeforeMount(() => {
+  initCachedData()
+})
 </script>
 
 <template>
