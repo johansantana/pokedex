@@ -16,7 +16,5 @@ export const getTypeColorBg = {
   ice: 'bg-[#96d8e3]',
   dragon: 'bg-[#7e57c2]',
   dark: 'bg-[#453f3d]',
-  fairy: 'bg-[#e68cb8]',
-  unknown: '',
-  shadow: ''
+  fairy: 'bg-[#e68cb8]'
 }
