@@ -11,17 +11,17 @@ const props = defineProps({
 
 const emits = defineEmits(['setOpen'])
 
-const inputRef = ref(null)
+const inputReference = ref(null)
 const search = ref(null)
 
-watch(inputRef, () => {
-  if (inputRef.value) {
+watch(inputReference, () => {
+  if (inputReference.value) {
     search.value = null
-    inputRef.value.focus()
+    inputReference.value.focus()
   }
 })
 
-onClickOutside(inputRef, () => {
+onClickOutside(inputReference, () => {
   emits('setOpen', false)
 })
 </script>
@@ -33,7 +33,7 @@ onClickOutside(inputRef, () => {
       @submit.prevent
     >
       <input
-        ref="inputRef"
+        ref="inputReference"
         type="text"
         placeholder="Write some pokémon name..."
         v-model="search"
