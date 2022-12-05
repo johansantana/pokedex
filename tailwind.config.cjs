@@ -13,7 +13,7 @@ module.exports = {
     themes: [
       {
         pokelight: {
-          primary: '#fde047',
+          primary: '#f8e890',
           secondary: '#c7d2fe',
           accent: '#f5d0fe',
           neutral: '#f1f5f9',
