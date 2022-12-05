@@ -7,4 +7,8 @@
   .kbd {
     @apply rounded-full;
   }
+
+  button {
+    @apply normal-case !important;
+  }
 }
