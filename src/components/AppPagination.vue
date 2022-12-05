@@ -16,7 +16,7 @@ const showPrevious = () => {
   <div class="flex items-center justify-center gap-4">
     <button
       class="btn border-slate-300"
-      v-if="currentPage > 1"
+      :disabled="currentPage < 2"
       @click="showPrevious"
     >
       <ChevronLeftIcon class="w-5 h-5" />

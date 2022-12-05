@@ -11,13 +11,13 @@ onBeforeMount(() => {
 
 <template>
   <main class="min-h-screen max-w-[1200px] m-auto bg-white p-6 md:p-10 lg:p-14">
-    <section class="h-[100px]">
+    <header class="h-[100px]">
       <div
         class="absolute w-full h-[180px] top-0 left-0 bg-gradient-to-r from-yellow-400 via-red-400 to-red-500"
       >
       </div>
       <SearchBarHandler />
-    </section>
+    </header>
     <!-- Main content -->
     <section class="mb-5 mt-20">
       <div class="flex gap-10 items-center">
