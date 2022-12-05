@@ -37,11 +37,13 @@ whenever(escape, () => {
     </Teleport>
     <section>
       <button
-        class="border flex items-center gap-2 p-2 px-4 hover:bg-neutral transition-colors"
+        class="border-[3px] border-base-100 text-slate-50 flex items-center gap-2 p-2 px-4 hover:bg-neutral/30 transition-colors"
         @click="isOpen = true"
       >
         <span class="">Press</span>
-        <kbd class="kbd kbd-sm bg-primary p-1 px-2">Ctrl K</kbd>
+        <kbd class="kbd kbd-sm bg-primary p-1 px-2 text-yellow-600 font-medium"
+          >Ctrl K</kbd
+        >
         <span>to search</span>
         <MagnifyingGlassIcon class="w-5 h-5" />
       </button>
