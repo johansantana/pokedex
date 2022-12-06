@@ -6,7 +6,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       sans: ['Inter', 'sans-serif'],
-      mono: ['Ubuntu Mono', 'mono']
+      mono: ['Roboto Mono', 'mono']
     }
   },
   daisyui: {
