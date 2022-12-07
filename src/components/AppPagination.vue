@@ -15,7 +15,7 @@ const showPrevious = () => {
 <template>
   <div class="flex items-center justify-center gap-4">
     <button
-      class="btn border-slate-300"
+      class="btn btn-primary rounded-full flex justify-center text-yellow-600"
       :disabled="currentPage < 2"
       @click="showPrevious"
     >
@@ -24,7 +24,10 @@ const showPrevious = () => {
     <span class="font-medium text-slate-400 text-lg">
       Page {{ currentPage }}
     </span>
-    <button class="btn border-slate-300" @click="showNext">
+    <button
+      class="btn btn-primary rounded-full flex justify-center text-yellow-600"
+      @click="showNext"
+    >
       <ChevronRightIcon class="w-5 h-5" />
     </button>
   </div>

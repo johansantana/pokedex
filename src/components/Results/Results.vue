@@ -6,8 +6,6 @@ const props = defineProps({
     type: String
   }
 })
-
-const isLoading = ref(true)
 </script>
 
 <template>

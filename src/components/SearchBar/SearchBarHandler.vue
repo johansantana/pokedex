@@ -6,10 +6,6 @@ import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 
 const isOpen = ref(false)
 
-const setOpen = val => {
-  isOpen.value = val
-}
-
 const { ctrl_k, escape } = useMagicKeys({
   passive: false,
   onEventFired(e) {
@@ -30,18 +26,19 @@ whenever(escape, () => {
   <div class="relative">
     <Teleport to="#search">
       <SearchBar
-        @setOpen="setOpen"
-        :isOpen="isOpen"
+        @set-open="val => (isOpen = val)"
+        :is-open="isOpen"
         class="fixed top-0 left-0 w-full h-full flex items-center justify-center"
       />
     </Teleport>
     <section>
       <button
-        class="border-[3px] border-base-100 text-slate-50 flex items-center gap-2 p-2 px-4 hover:bg-neutral/30 transition-colors"
+        class="border-2 flex text-slate-500 items-center gap-2 p-2 px-4 hover:bg-neutral transition-colors"
         @click="isOpen = true"
       >
         <span class="">Press</span>
-        <kbd class="kbd kbd-sm bg-primary p-1 px-2 text-yellow-600 font-medium"
+        <kbd
+          class="kbd kbd-sm bg-primary p-1 px-2 text-yellow-600/80 font-medium"
           >Ctrl K</kbd
         >
         <span>to search</span>

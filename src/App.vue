@@ -1,23 +1,16 @@
 <script setup>
-import { onBeforeMount } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import SearchBarHandler from './components/SearchBar/SearchBarHandler.vue'
 import PokemonList from './components/Pokemon/PokemonList.vue'
-import { initCachedData } from './utils/localStorage'
+import { getPokemonsByCount } from './utils'
 
-onBeforeMount(() => {
-  initCachedData()
-})
+const pokemonItems = ref(null)
+onBeforeMount(async () => (pokemonItems.value = await getPokemonsByCount(20)))
 </script>
 
 <template>
   <main class="min-h-screen max-w-[1200px] m-auto bg-white p-6 md:p-10 lg:p-14">
-    <header class="h-[100px]">
-      <div
-        class="absolute w-full h-[180px] top-0 left-0 bg-gradient-to-r from-yellow-400 via-red-400 to-red-500"
-      >
-      </div>
-      <SearchBarHandler />
-    </header>
+    <SearchBarHandler />
     <!-- Main content -->
     <section class="mb-5 mt-20">
       <div class="flex gap-10 items-center">
@@ -29,8 +22,11 @@ onBeforeMount(() => {
         <img src="/pokeball.png" alt="pokeball image" class="max-h-[100px]" />
       </div>
     </section>
-    <section>
-      <PokemonList />
+    <section v-if="pokemonItems">
+      <PokemonList :list="pokemonItems" />
+    </section>
+    <section v-else class="grid place-content-center place-items-center">
+      <p class="text-3xl text-slate-400 font-medium mt-36">Loading...</p>
     </section>
   </main>
 </template>

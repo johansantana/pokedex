@@ -1,51 +1,40 @@
 <script setup>
-import { ref, onBeforeMount, onMounted } from 'vue'
-import { getPokemonByUrl } from '../../api/pokemon'
-import { getAverageImageColor } from '../../utils/imageColor.ts'
-import { cachePokemon, checkCachedPokemon } from '../../utils/localStorage'
-import { getTypeColorBg } from '../../utils/theme'
+import { ref, onBeforeMount, watch, computed, capitalize } from 'vue'
+import { getPokemonById, getAverageImageColor, typesColors } from '../../utils'
 
 const props = defineProps({
-  pokemonUrl: {
-    type: String,
+  pokemonId: {
+    type: Number,
     required: true
   }
 })
 
 const pokemon = ref(null)
-const pokemonTypes = ref(null)
-const isLoading = ref(true)
 
 onBeforeMount(async () => {
-  const cachedPokemonData = checkCachedPokemon({ url: props.pokemonUrl })
-  if (cachedPokemonData) {
-    pokemon.value = cachedPokemonData
-    isLoading.value = false
-  } else {
-    pokemon.value = await getPokemonByUrl(props.pokemonUrl)
-    cachePokemon(pokemon.value)
-    isLoading.value = false
-  }
+  pokemon.value = await getPokemonById(props.pokemonId)
+  pokemon.value.name = capitalize(pokemon.value.name)
+})
 
-  pokemonTypes.value = pokemon.value.types.map(typeObject => {
+const pokemonTypes = computed(() => {
+  return pokemon.value.types.map(typeObject => {
     return typeObject.type
   })
 })
 
 const imageReference = ref(null)
-const circleColor = ref([])
+const circleColor = ref({})
 
-onMounted(async () => {
-  if (pokemon.value) {
-    const { r, g, b } = await getAverageImageColor(imageReference.value.src)
-    circleColor.value = [r, g, b]
+watch(imageReference, async () => {
+  if (imageReference.value) {
+    circleColor.value = await getAverageImageColor(imageReference.value.src)
   }
 })
 </script>
 
 <template>
   <article
-    v-if="!isLoading"
+    v-if="pokemon"
     class="bg-neutral border-2 border-gray-300 rounded-2xl hover:scale-105 hover:rotate-3 hover:shadow-xl hover:shadow-secondary/50 transition-transform"
   >
     <a :href="`#${pokemon.name}`" class="px-3 flex flex-col relative">
@@ -58,12 +47,12 @@ onMounted(async () => {
       />
       <div
         class="w-[100px] h-[100px] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
-        :style="`background-color: rgb(${circleColor[0]}, ${circleColor[1]}, ${circleColor[2]}, .4)`"
+        :style="`background-color: rgb(${circleColor.r}, ${circleColor.g}, ${circleColor.b}, .4)`"
       >
       </div>
       <p class="text-xl font-medium text-slate-600">
         {{ pokemon.name }}
-        <span class="text-base font-semibold text-slate-400/70">
+        <span class="text-base font-bold font-mono text-slate-400/70">
           #{{ pokemon.id }}
         </span>
       </p>
@@ -72,11 +61,11 @@ onMounted(async () => {
       <span
         v-for="type in pokemonTypes"
         :key="type.name"
-        class="badge p-3 text-white border-none"
-        :class="getTypeColorBg[type.name]"
+        class="badge p-3 font-mono font-medium text-white border-none"
+        :class="typesColors[type.name]"
       >
         <a :href="`#${type.name}`">
-          {{ type.name }}
+          {{ capitalize(type.name) }}
         </a>
       </span>
     </div>

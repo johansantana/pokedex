@@ -1,4 +1,14 @@
-export const getTypeColorBg = {
+import getAverageColor from 'get-average-color'
+
+export { getAllPokemons, getPokemonById, getPokemonsByCount } from './pokemon'
+
+export const API_URL = 'https://pokeapi.co/api/v2'
+
+export const getAverageImageColor = async (imgPath: string) => {
+  return getAverageColor(imgPath)
+}
+
+export const typesColors = {
   normal: 'bg-[#d6d1a3]',
   fighting: 'bg-[#e85454]',
   flying: 'bg-[#9c88df]',
