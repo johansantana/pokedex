@@ -13,7 +13,6 @@ const pokemon = ref(null)
 
 onBeforeMount(async () => {
   pokemon.value = await getPokemonById(props.pokemonId)
-  pokemon.value.name = capitalize(pokemon.value.name)
 })
 
 const pokemonTypes = computed(() => {
@@ -37,7 +36,10 @@ watch(imageReference, async () => {
     v-if="pokemon"
     class="bg-neutral border-2 border-gray-300 rounded-2xl hover:scale-105 hover:rotate-3 hover:shadow-xl hover:shadow-secondary/50 transition-transform"
   >
-    <a :href="`#${pokemon.name}`" class="px-3 flex flex-col relative">
+    <RouterLink
+      :to="`/pokemon/${pokemon.name}`"
+      class="p-3 flex flex-col relative"
+    >
       <img
         ref="imageReference"
         :src="pokemon.sprites.front_default"
@@ -51,23 +53,22 @@ watch(imageReference, async () => {
       >
       </div>
       <p class="text-xl font-medium text-slate-600">
-        {{ pokemon.name }}
+        {{ capitalize(pokemon.name) }}
         <span class="text-base font-bold font-mono text-slate-400/70">
           #{{ pokemon.id }}
         </span>
       </p>
-    </a>
-    <div class="flex items-center mt-2 gap-2 px-3 pb-3">
-      <span
-        v-for="type in pokemonTypes"
-        :key="type.name"
-        class="badge p-3 font-mono font-medium text-white border-none"
-        :class="typesColors[type.name]"
-      >
-        <a :href="`#${type.name}`">
+
+      <div class="flex items-center mt-2 gap-2">
+        <span
+          v-for="type in pokemonTypes"
+          :key="type.name"
+          class="badge p-3 font-mono font-medium text-white border-none"
+          :class="typesColors[type.name]"
+        >
           {{ capitalize(type.name) }}
-        </a>
-      </span>
-    </div>
+        </span>
+      </div>
+    </RouterLink>
   </article>
 </template>

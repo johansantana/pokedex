@@ -9,7 +9,7 @@ onBeforeMount(async () => (pokemonItems.value = await getPokemonsByCount(20)))
 
 <template>
   <div>
-    <section class="mb-5 mt-20">
+    <section class="my-10">
       <div class="flex gap-10 items-center">
         <h1
           class="text-6xl md:text-7xl lg:text-8xl w-fit mt-10 mb-10 font-bold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 via-slate-500 to-violet-300"
