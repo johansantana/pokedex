@@ -1,6 +1,10 @@
 <script setup>
-import { onBeforeMount, ref, watch } from 'vue'
-import { getPokemonDescription, getAverageImageColor } from '../../utils'
+import { computed, onBeforeMount, ref, watch, capitalize } from 'vue'
+import {
+  getPokemonDescription,
+  getAverageImageColor,
+  typesColors
+} from '../../utils'
 
 const props = defineProps({
   pokemon: {
@@ -23,14 +27,54 @@ watch(imageReference, async () => {
     circleColor.value = await getAverageImageColor(imageReference.value.src)
   }
 })
+
+const height = computed(() => {
+  return props.pokemon.height / 10
+})
+const weight = computed(() => {
+  return props.pokemon.weight / 10
+})
+
+const pokemonTypes = computed(() => {
+  return props.pokemon.types.map(typeObject => {
+    return typeObject.type
+  })
+})
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row gap-32">
-    <section class="md:max-w-[50%] pt-10 md:pt-20">
+    <section class="md:min-w-[45%] md:max-w-[50%] pt-10 md:pt-20">
       <p v-if="pokemonDescription" class="font-mono text-lg text-slate-500">
         {{ pokemonDescription }}
       </p>
+      <div class="flex gap-32 my-10">
+        <div>
+          <p class="text-3xl text-yellow-500 font-semibold">Height</p>
+          <p class="font-mono font-medium text-slate-500 text-xl">
+            {{ height }} m
+          </p>
+        </div>
+        <div>
+          <p class="text-3xl text-yellow-500 font-semibold">Weight</p>
+          <p class="font-mono font-medium text-slate-500 text-xl">
+            {{ weight }} kg
+          </p>
+        </div>
+      </div>
+      <h3 class="text-3xl font-semibold text-yellow-500">{{
+        pokemonTypes.length > 1 ? 'Types' : 'Type'
+      }}</h3>
+      <div class="flex gap-5 my-3">
+        <span
+          v-for="type in pokemonTypes"
+          :key="type.name"
+          class="badge text-lg p-4 font-mono font-medium text-white border-none"
+          :class="typesColors[type.name]"
+        >
+          {{ capitalize(type.name) }}
+        </span>
+      </div>
     </section>
     <section class="grow-0">
       <div class="relative hidden md:block">
