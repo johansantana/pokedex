@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, watch, computed, capitalize } from 'vue'
-import { getPokemonById, getAverageImageColor, typesColors } from '../../utils'
+import { getPokemon, getAverageImageColor, typesColors } from '../../utils'
 
 const props = defineProps({
   pokemonId: {
@@ -12,7 +12,7 @@ const props = defineProps({
 const pokemon = ref(null)
 
 onBeforeMount(async () => {
-  pokemon.value = await getPokemonById(props.pokemonId)
+  pokemon.value = await getPokemon(props.pokemonId)
 })
 
 const pokemonTypes = computed(() => {
