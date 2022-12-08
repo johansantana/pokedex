@@ -1,5 +1,6 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
+import { Species } from '../interfaces/species.interface'
 
 export const getPokemonsByCount = async (limit: number): Promise<Pokemon[]> => {
   try {
@@ -22,22 +23,59 @@ export const getAllPokemons = async (): Promise<Pokemon[]> => {
   }
 }
 
-export const getPokemonById = async (id: number): Promise<Pokemon> => {
+export const getPokemon = async (
+  id: number,
+  requestType?: string
+): Promise<any> => {
   try {
     if (!id) throw new Error('No Pokemon Id was provided')
-    const url = `${API_URL}/pokemon/${id}`
-    const cache = await caches.open('pokemon_caches')
 
-    const cachedPokemonResult = await caches.match(url)
-    const cachedPokemonData = await cachedPokemonResult?.json()
-    if (cachedPokemonData) return cachedPokemonData
+    const URL = requestType
+      ? `${API_URL}/pokemon-${requestType}/${id}`
+      : `${API_URL}/pokemon/${id}`
+    const CACHE_NAME = requestType ? 'series_caches' : 'pokemon_caches'
 
-    const result = await fetch(url)
-    cache.put(url, result.clone())
+    const cache = await caches.open(CACHE_NAME)
+
+    const cachedResult = await caches.match(URL)
+    const cachedData = await cachedResult?.json()
+    if (cachedData) return cachedData
+
+    const result = await fetch(URL)
+    cache.put(URL, result.clone())
     const pokemonData = await result.json()
 
     return pokemonData
   } catch (err) {
     throw new Error(err)
   }
+}
+
+export const getPokemonDescription = async (id: number): Promise<string> => {
+  const cache = await caches.open('description_caches')
+  const cachedResult = await caches.match(String(id))
+  const cachedData = await cachedResult?.text()
+  if (cachedData) return cachedData
+
+  const data = await getPokemon(id, 'species')
+
+  const textEntries: string[] = []
+
+  while (textEntries.length < 2) {
+    data?.flavor_text_entries.forEach(entry => {
+      if (entry.language.name !== 'en') return
+      if (!textEntries.includes(entry.flavor_text))
+        textEntries.push(entry.flavor_text)
+    })
+  }
+
+  const string = textEntries.slice(0, 2).join(' ')
+  const description = string
+    .split('\f')
+    .join(' ')
+    .replace(/POKéMON/g, 'Pokémon')
+
+  cache.put(String(id), new Response(description))
+
+  return description
 }
