@@ -1,20 +1,24 @@
 <script setup>
 import { onBeforeMount, ref, capitalize } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getAllPokemons, getPokemon } from '../utils'
 import AppButton from '../components/AppButton.vue'
 import PokemonInfo from '../components/Pokemon/PokemonInfo.vue'
 import { ArrowUturnLeftIcon } from '@heroicons/vue/20/solid'
 
-const router = useRouter()
 const route = useRoute()
+const router = useRouter()
 
 const pokemon = ref(null)
 
 onBeforeMount(async () => {
   const pokemons = await getAllPokemons()
-  const { id } = pokemons.find(pokemon => pokemon.name === route.params.name)
-  pokemon.value = await getPokemon(id)
+  const pokemonFound = pokemons.find(pokemon => {
+    return pokemon.name === route.params.name
+  })
+
+  if (!pokemonFound) router.push('/' + route.params.name)
+  pokemon.value = await getPokemon(pokemonFound.id)
 })
 </script>
 
@@ -23,7 +27,7 @@ onBeforeMount(async () => {
     <div
       class="flex flex-col gap-10 items-start md:flex-row md:justify-between"
     >
-      <AppButton class="px-4 grow-0" @click="router.push('/')">
+      <AppButton class="px-4 grow-0" @click="$router.push('/')">
         <ArrowUturnLeftIcon class="w-4 h-4" />
         <span>Go Back</span>
       </AppButton>

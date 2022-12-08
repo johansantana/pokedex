@@ -11,6 +11,11 @@ const routes = [
     path: '/pokemon/:name',
     name: 'PokemonPage',
     component: () => import('./pages/Pokemon.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('./pages/404.vue')
   }
 ]
 
