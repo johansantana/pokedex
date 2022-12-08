@@ -1,10 +1,15 @@
 import getAverageColor from 'get-average-color'
 
-export { getAllPokemons, getPokemonById, getPokemonsByCount } from './pokemon'
+export {
+  getAllPokemons,
+  getPokemon,
+  getPokemonDescription,
+  getPokemonsByCount
+} from './pokemon'
 
 export const API_URL = 'https://pokeapi.co/api/v2'
 
-export const getAverageImageColor = async (imgPath: string) => {
+export const getAverageImageColor = async imgPath => {
   return getAverageColor(imgPath)
 }
 
