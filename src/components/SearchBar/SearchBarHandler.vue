@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useMagicKeys, whenever } from '@vueuse/core'
-import SearchBar from './SearchBar.vue'
+import Searchbar from './Searchbar.vue'
 import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 
 const isOpen = ref(false)

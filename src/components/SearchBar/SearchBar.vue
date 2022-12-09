@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-import Results from '../Results/Results.vue'
+import SearchbarResults from './SearchbarResults.vue'
 
 const props = defineProps({
   isOpen: {
@@ -42,7 +42,7 @@ onClickOutside(inputReference, () => {
 
       <div class="bg-white overflow-hidden">
         <!-- Results -->
-        <Results v-if="search" :search="search" />
+        <SearchbarResults v-if="search" :search="search" />
       </div>
     </form>
   </div>
