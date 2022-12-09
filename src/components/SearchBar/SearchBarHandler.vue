@@ -25,7 +25,7 @@ whenever(escape, () => {
 <template>
   <div class="relative">
     <Teleport to="#search">
-      <SearchBar
+      <Searchbar
         @set-open="val => (isOpen = val)"
         :is-open="isOpen"
         class="fixed top-0 left-0 w-full h-full flex items-center justify-center"
