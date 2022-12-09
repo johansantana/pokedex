@@ -22,11 +22,11 @@ const pokemonTypes = computed(() => {
 })
 
 const imageReference = ref(null)
-const circleColor = ref({})
+const backgroundColor = ref({})
 
 watch(imageReference, async () => {
   if (imageReference.value) {
-    circleColor.value = await getAverageImageColor(imageReference.value.src)
+    backgroundColor.value = await getAverageImageColor(imageReference.value.src)
   }
 })
 </script>
@@ -49,7 +49,7 @@ watch(imageReference, async () => {
       />
       <div
         class="w-[100px] h-[100px] rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
-        :style="`background-color: rgb(${circleColor.r}, ${circleColor.g}, ${circleColor.b}, .4)`"
+        :style="`background-color: rgb(${backgroundColor.r}, ${backgroundColor.g}, ${backgroundColor.b}, .4)`"
       >
       </div>
       <p class="text-xl font-medium text-slate-600">
