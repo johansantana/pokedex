@@ -1,11 +1,18 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
 
-export const getPokemonsByCount = async (limit: number): Promise<Pokemon[]> => {
+export const getPokemonsByCount = async (
+  limit: number,
+  page?: number
+): Promise<Pokemon[]> => {
   try {
-    const result = await fetch(`${API_URL}/pokemon/?limit=${limit}`)
+    const offset = page ? limit * page : 0
+
+    const result = await fetch(
+      `${API_URL}/pokemon/?limit=${limit}${offset ? `&offset=${offset}` : ''}`
+    )
     const data = await result.json()
-    return data.results.map(pokemon => {
+    return data.results.map((pokemon: any) => {
       return { ...pokemon, id: Number(pokemon.url.split('/').at(-2)) }
     })
   } catch (err) {

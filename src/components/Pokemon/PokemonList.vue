@@ -9,6 +9,8 @@ const props = defineProps({
     required: true
   }
 })
+
+const emits = defineEmits(['pageChange'])
 </script>
 
 <template>
@@ -24,7 +26,10 @@ const props = defineProps({
       />
     </div>
     <div class="flex justify-center">
-      <AppPagination class="w-1/2" />
+      <AppPagination
+        class="w-1/2"
+        @pagination-click="val => emits('pageChange', val)"
+      />
     </div>
   </div>
 </template>

@@ -5,6 +5,10 @@ import { getPokemonsByCount } from '../utils'
 
 const pokemonItems = ref(null)
 onBeforeMount(async () => (pokemonItems.value = await getPokemonsByCount(20)))
+
+const changePage = async val => {
+  pokemonItems.value = await getPokemonsByCount(20, val - 1)
+}
 </script>
 
 <template>
@@ -24,7 +28,7 @@ onBeforeMount(async () => (pokemonItems.value = await getPokemonsByCount(20)))
       </div>
     </section>
     <section v-if="pokemonItems">
-      <PokemonList :list="pokemonItems" />
+      <PokemonList :list="pokemonItems" @page-change="val => changePage(val)" />
     </section>
     <section v-else class="grid place-content-center place-items-center">
       <p class="text-3xl text-slate-400 font-medium mt-36">Loading...</p>
