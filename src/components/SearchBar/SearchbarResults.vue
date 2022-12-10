@@ -35,7 +35,7 @@ watch(
         v-if="searchResults.length"
         v-for="pokemon in searchResults"
         :key="pokemon.id"
-        :pokemonId="pokemon.id"
+        :pokemon-id="pokemon.id"
         class="border-t-2 border-t-slate-100"
       />
       <div v-else class="border-t-2 border-t-slate-100 p-5">
