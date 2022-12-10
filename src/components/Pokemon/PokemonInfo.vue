@@ -1,24 +1,18 @@
 <script setup>
-import { computed, onBeforeMount, ref, watch, capitalize } from 'vue'
-import {
-  getPokemonDescription,
-  getAverageImageColor,
-  typesColors
-} from '../../utils'
+import { computed, ref, watch, capitalize } from 'vue'
+import { getAverageImageColor, typesColors } from '../../utils'
 
 const props = defineProps({
   pokemon: {
     type: Object,
     required: true
+  },
+  description: {
+    type: String,
+    required: true
   }
 })
-
-const pokemonDescription = ref(null)
-
-onBeforeMount(async () => {
-  pokemonDescription.value = await getPokemonDescription(props.pokemon.id)
-})
-
+const pokemonDescription = ref('')
 const imageReference = ref(null)
 const backgroundColor = ref({})
 
@@ -27,6 +21,13 @@ watch(imageReference, async () => {
     backgroundColor.value = await getAverageImageColor(imageReference.value.src)
   }
 })
+
+watch(
+  () => props.description,
+  () => {
+    pokemonDescription.value = props.description
+  }
+)
 
 const height = computed(() => {
   return props.pokemon.height / 10
@@ -79,7 +80,8 @@ const pokemonTypes = computed(() => {
     <section class="grow-0">
       <div class="relative hidden md:block">
         <img
-          :src="pokemon.sprites.other.home.front_default"
+          :src="pokemon.sprites.front_default"
+          style="image-rendering: pixelated"
           :alt="pokemon.name + ' picture'"
           ref="imageReference"
           class="relative z-10 min-h-[415px]"
