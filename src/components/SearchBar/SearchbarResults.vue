@@ -1,15 +1,51 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { getAllPokemons } from '../../utils'
+import PokemonSearchResult from '../Pokemon/PokemonSearchResult.vue'
 
 const props = defineProps({
-  search: {
-    type: String
-  }
+  search: String
 })
+
+const isLoading = ref(true)
+const searchResults = ref([])
+
+const renderResults = value => {
+  isLoading.value = true
+  getAllPokemons().then(pokemons => {
+    const matches = pokemons.filter(pokemon =>
+      pokemon.name.startsWith(value.toLowerCase().split(' ').join('-'))
+    )
+    searchResults.value = matches.slice(0, 3)
+    isLoading.value = false
+  })
+}
+
+if (props.search) renderResults(props.search)
+watch(
+  () => props.search,
+  value => renderResults(value)
+)
 </script>
 
 <template>
-  <div class="min-w-[500px] p-5 border-t-2 font-light border-gray-100">
-    <p>{{ search }}</p>
+  <div class="min-w-[500px]">
+    <div v-if="!isLoading" class="flex flex-col">
+      <PokemonSearchResult
+        v-if="searchResults.length"
+        v-for="pokemon in searchResults"
+        :key="pokemon.id"
+        :pokemonId="pokemon.id"
+        class="border-t-2 border-t-slate-100"
+      />
+      <div v-else class="border-t-2 border-t-slate-100 p-5">
+        <p class="text-slate-400 text-center">
+          No pokémon matches with your search.
+        </p>
+      </div>
+    </div>
+    <div v-else class="border-t-2 border-t-slate-100 p-5">
+      <p class="text-slate-400 text-center">Loading...</p>
+    </div>
   </div>
 </template>

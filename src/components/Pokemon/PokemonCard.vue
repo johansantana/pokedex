@@ -53,7 +53,12 @@ watch(imageReference, async () => {
       >
       </div>
       <p class="text-xl font-medium text-slate-600">
-        {{ capitalize(pokemon.name) }}
+        {{
+          pokemon.name
+            ?.split('-')
+            ?.map(word => capitalize(word))
+            ?.join(' ')
+        }}
         <span class="text-base font-bold font-mono text-slate-400/70">
           #{{ pokemon.id }}
         </span>
