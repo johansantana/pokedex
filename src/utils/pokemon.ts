@@ -1,6 +1,5 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
-import { Species } from '../interfaces/species.interface'
 
 export const getPokemonsByCount = async (limit: number): Promise<Pokemon[]> => {
   try {
@@ -28,7 +27,7 @@ export const getPokemon = async (
   requestType?: string
 ): Promise<any> => {
   try {
-    if (!id) throw new Error('No Pokemon Id was provided')
+    if (!id) throw new Error('No Pokémon ID was provided')
 
     const URL = requestType
       ? `${API_URL}/pokemon-${requestType}/${id}`
@@ -52,6 +51,9 @@ export const getPokemon = async (
 }
 
 export const getPokemonDescription = async (id: number): Promise<string> => {
+  if (!id) throw new Error('No Pokémon ID was provided')
+  if (id > 904) return 'This Pokémon does not have a description.'
+
   const cache = await caches.open('description_caches')
   const cachedResult = await caches.match(String(id))
   const cachedData = await cachedResult?.text()
@@ -62,13 +64,17 @@ export const getPokemonDescription = async (id: number): Promise<string> => {
   const textEntries: string[] = []
 
   while (textEntries.length < 2) {
-    data?.flavor_text_entries.forEach(entry => {
+    let end = false
+    data?.flavor_text_entries.forEach((entry: any, index: number) => {
       if (entry.language.name !== 'en') return
+      if (index === data?.flavor_text_entries.length - 1) {
+        end = true
+      }
       if (!textEntries.includes(entry.flavor_text))
         textEntries.push(entry.flavor_text)
     })
+    if (end) break
   }
-
   const string = textEntries.slice(0, 2).join(' ')
   const description = string
     .split('\f')
