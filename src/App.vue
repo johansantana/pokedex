@@ -6,7 +6,7 @@ import SearchbarHandler from './components/Searchbar/SearchbarHandler.vue'
   <div class="min-h-screen max-w-[1200px] m-auto bg-white p-6 md:p-10 lg:p-14">
     <SearchbarHandler />
     <main class="pt-5 md:pt-10">
-      <RouterView />
+      <RouterView :key="$route.path" />
     </main>
   </div>
 </template>
