@@ -14,7 +14,7 @@ const renderResults = value => {
   isLoading.value = true
   getAllPokemons().then(pokemons => {
     const matches = pokemons.filter(pokemon =>
-      pokemon.name.startsWith(value.toLowerCase().split(' ').join('-'))
+      pokemon.name.startsWith(value.trim().toLowerCase().split(' ').join('-'))
     )
     searchResults.value = matches.slice(0, 3)
     isLoading.value = false
