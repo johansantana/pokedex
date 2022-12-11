@@ -1,13 +1,13 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
 import PokemonList from '../components/Pokemon/PokemonList.vue'
-import { getPokemonsByCount } from '../utils'
+import { getPokemonsByPage } from '../utils'
 
 const pokemonItems = ref(null)
-onBeforeMount(async () => (pokemonItems.value = await getPokemonsByCount(20)))
+onBeforeMount(async () => (pokemonItems.value = await getPokemonsByPage(20)))
 
 const changePage = async val => {
-  pokemonItems.value = await getPokemonsByCount(20, val - 1)
+  pokemonItems.value = await getPokemonsByPage(20, val - 1)
 }
 </script>
 

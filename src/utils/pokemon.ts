@@ -1,20 +1,20 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
+import { useRoute } from 'vue-router'
 
-export const getPokemonsByCount = async (
+export const getPokemonsByPage = async (
   limit: number,
   page?: number
 ): Promise<Pokemon[]> => {
   try {
     const offset = page ? limit * page : 0
 
-    const result = await fetch(
-      `${API_URL}/pokemon/?limit=${limit}${offset ? `&offset=${offset}` : ''}`
-    )
-    const data = await result.json()
-    return data.results.map((pokemon: any) => {
-      return { ...pokemon, id: Number(pokemon.url.split('/').at(-2)) }
-    })
+    const result = await getAllPokemons()
+    if (offset) {
+      const route = useRoute()
+    }
+
+    return result.slice(offset, offset + limit)
   } catch (err) {
     throw new Error(err)
   }
@@ -22,8 +22,11 @@ export const getPokemonsByCount = async (
 
 export const getAllPokemons = async (): Promise<Pokemon[]> => {
   try {
-    const pokemons = await getPokemonsByCount(5000)
-    return pokemons
+    const result = await fetch(`${API_URL}/pokemon/?limit=5000`)
+    const data = await result.json()
+    return data.results.map((pokemon: any) => {
+      return { ...pokemon, id: Number(pokemon.url.split('/').at(-2)) }
+    })
   } catch (err) {
     throw new Error(err)
   }

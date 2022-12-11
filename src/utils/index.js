@@ -4,7 +4,7 @@ export {
   getAllPokemons,
   getPokemon,
   getPokemonDescription,
-  getPokemonsByCount
+  getPokemonsByPage
 } from './pokemon'
 
 export const API_URL = 'https://pokeapi.co/api/v2'
