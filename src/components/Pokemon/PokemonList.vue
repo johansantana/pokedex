@@ -1,6 +1,5 @@
 <script setup>
 import PokemonCard from './PokemonCard.vue'
-import AppPagination from '../AppPagination.vue'
 import FilterList from '../FilterList/FilterList.vue'
 
 const props = defineProps({
@@ -9,8 +8,6 @@ const props = defineProps({
     required: true
   }
 })
-
-const emits = defineEmits(['pageChange'])
 </script>
 
 <template>
@@ -23,12 +20,6 @@ const emits = defineEmits(['pageChange'])
         v-for="pokemon in props.list"
         :key="pokemon.name"
         :pokemon-id="pokemon.id"
-      />
-    </div>
-    <div class="flex justify-center">
-      <AppPagination
-        class="w-1/2"
-        @pagination-click="val => emits('pageChange', val)"
       />
     </div>
   </div>

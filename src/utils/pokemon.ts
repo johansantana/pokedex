@@ -1,19 +1,14 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
-import { useRoute } from 'vue-router'
 
 export const getPokemonsByPage = async (
   limit: number,
-  page?: number
+  page = 0
 ): Promise<Pokemon[]> => {
   try {
-    const offset = page ? limit * page : 0
+    const offset = limit * page
 
     const result = await getAllPokemons()
-    if (offset) {
-      const route = useRoute()
-    }
-
     return result.slice(offset, offset + limit)
   } catch (err) {
     throw new Error(err)
@@ -42,7 +37,7 @@ export const getPokemon = async (
     const URL = requestType
       ? `${API_URL}/pokemon-${requestType}/${id}`
       : `${API_URL}/pokemon/${id}`
-    const CACHE_NAME = requestType ? 'series_caches' : 'pokemon_caches'
+    const CACHE_NAME = requestType ? 'series_cache' : 'pokemon_cache'
 
     const cache = await caches.open(CACHE_NAME)
 
@@ -64,7 +59,7 @@ export const getPokemonDescription = async (id: number): Promise<string> => {
   if (!id) throw new Error('No Pokémon ID was provided')
   if (id > 904) return 'This Pokémon does not have a description.'
 
-  const cache = await caches.open('description_caches')
+  const cache = await caches.open('description_cache')
   const cachedResult = await caches.match(String(id))
   const cachedData = await cachedResult?.text()
   if (cachedData) return cachedData
