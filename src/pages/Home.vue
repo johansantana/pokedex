@@ -1,23 +1,12 @@
 <script setup>
 import { ref, onBeforeMount } from 'vue'
-import { useRoute } from 'vue-router'
 import { getPokemonsByPage } from '../utils'
 import PokemonList from '../components/Pokemon/PokemonList.vue'
-import AppPagination from '../components/AppPagination.vue'
 
 const pokemonItems = ref(null)
-const route = useRoute()
 onBeforeMount(async () => {
-  const page = route.query.page
-  if (page) {
-    return (pokemonItems.value = await getPokemonsByPage(20, page - 1))
-  }
   pokemonItems.value = await getPokemonsByPage(20)
 })
-
-const changePage = async val => {
-  pokemonItems.value = await getPokemonsByPage(20, val - 1)
-}
 </script>
 
 <template>
@@ -38,12 +27,6 @@ const changePage = async val => {
     </section>
     <section v-if="pokemonItems">
       <PokemonList :list="pokemonItems" />
-      <div class="flex justify-center">
-        <AppPagination
-          class="w-1/2"
-          @pagination-click="val => changePage(val)"
-        />
-      </div>
     </section>
     <section v-else class="grid place-content-center place-items-center">
       <p class="text-3xl text-slate-400 font-medium mt-36">Loading...</p>

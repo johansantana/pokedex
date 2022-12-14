@@ -1,6 +1,7 @@
 <script setup>
 import PokemonCard from './PokemonCard.vue'
 import FilterList from '../FilterList/FilterList.vue'
+import AppPagination from '../AppPagination.vue'
 
 const props = defineProps({
   list: {
@@ -21,6 +22,9 @@ const props = defineProps({
         :key="pokemon.name"
         :pokemon-id="pokemon.id"
       />
+    </div>
+    <div class="flex justify-center">
+      <AppPagination class="w-1/2" />
     </div>
   </div>
 </template>

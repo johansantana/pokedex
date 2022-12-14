@@ -1,12 +1,12 @@
 import { API_URL } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
+import { useRoute } from 'vue-router'
 
-export const getPokemonsByPage = async (
-  limit: number,
-  page = 0
-): Promise<Pokemon[]> => {
+export const getPokemonsByPage = async (limit: number): Promise<Pokemon[]> => {
   try {
-    const offset = limit * page
+    const route = useRoute()
+    const page = route.query.page ?? 1
+    const offset = limit * (Number(page) - 1)
 
     const result = await getAllPokemons()
     return result.slice(offset, offset + limit)
