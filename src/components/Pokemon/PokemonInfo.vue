@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, watch, capitalize } from 'vue'
+import AppBadge from '../AppBadge.vue'
 import { getAverageImageColor, typesColors } from '../../utils'
 
 const props = defineProps({
@@ -67,14 +68,14 @@ const pokemonTypes = computed(() => {
         pokemonTypes.length > 1 ? 'Types' : 'Type'
       }}</h3>
       <div class="flex gap-5 my-3">
-        <span
+        <AppBadge
           v-for="type in pokemonTypes"
           :key="type.name"
-          class="badge text-lg p-4 font-mono font-medium text-white border-none"
+          size="lg"
           :class="typesColors[type.name]"
         >
           {{ capitalize(type.name) }}
-        </span>
+        </AppBadge>
       </div>
     </section>
     <section class="grow-0">
