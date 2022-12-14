@@ -56,37 +56,41 @@ export const getPokemon = async (
 }
 
 export const getPokemonDescription = async (id: number): Promise<string> => {
-  if (!id) throw new Error('No Pokémon ID was provided')
-  if (id > 904) return 'This Pokémon does not have a description.'
+  try {
+    if (!id) throw new Error('No Pokémon ID was provided')
+    if (id > 904) return 'This Pokémon does not have a description.'
 
-  const cache = await caches.open('description_cache')
-  const cachedResult = await caches.match(String(id))
-  const cachedData = await cachedResult?.text()
-  if (cachedData) return cachedData
+    const cache = await caches.open('description_cache')
+    const cachedResult = await caches.match(String(id))
+    const cachedData = await cachedResult?.text()
+    if (cachedData) return cachedData
 
-  const data = await getPokemon(id, 'species')
+    const data = await getPokemon(id, 'species')
 
-  const textEntries: string[] = []
+    const textEntries: string[] = []
 
-  while (textEntries.length < 2) {
-    let end = false
-    data?.flavor_text_entries.forEach((entry: any, index: number) => {
-      if (entry.language.name !== 'en') return
-      if (index === data?.flavor_text_entries.length - 1) {
-        end = true
-      }
-      if (!textEntries.includes(entry.flavor_text))
-        textEntries.push(entry.flavor_text)
-    })
-    if (end) break
+    while (textEntries.length < 2) {
+      let end = false
+      data?.flavor_text_entries.forEach((entry: any, index: number) => {
+        if (entry.language.name !== 'en') return
+        if (index === data?.flavor_text_entries.length - 1) {
+          end = true
+        }
+        if (!textEntries.includes(entry.flavor_text))
+          textEntries.push(entry.flavor_text)
+      })
+      if (end) break
+    }
+    const string = textEntries.slice(0, 2).join(' ')
+    const description = string
+      .split('\f')
+      .join(' ')
+      .replace(/POKéMON/g, 'Pokémon')
+
+    cache.put(String(id), new Response(description))
+
+    return description
+  } catch (err) {
+    throw new Error(err)
   }
-  const string = textEntries.slice(0, 2).join(' ')
-  const description = string
-    .split('\f')
-    .join(' ')
-    .replace(/POKéMON/g, 'Pokémon')
-
-  cache.put(String(id), new Response(description))
-
-  return description
 }
