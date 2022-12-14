@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onBeforeMount, watch, capitalize, computed } from 'vue'
+import AppBadge from '../AppBadge.vue'
 import { getPokemon, typesColors } from '../../utils'
 
 const props = defineProps({
@@ -55,14 +56,14 @@ watch(imageReference, async () => {
             ?.join(' ')
         }}
       </p>
-      <span
+      <AppBadge
         v-for="type in pokemonTypes"
         :key="type.name"
-        class="badge p-3 font-mono font-medium text-white border-none mr-3"
+        size="sm"
         :class="typesColors[type.name]"
       >
         {{ capitalize(type.name) }}
-      </span>
+      </AppBadge>
     </div>
   </RouterLink>
 </template>
