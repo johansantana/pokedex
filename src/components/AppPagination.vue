@@ -10,7 +10,7 @@ const route = useRoute()
 const currentPage = ref(route.query.page || 1)
 watch(currentPage, () => {
   if (currentPage.value != 1) {
-    router.push({ query: { page: currentPage.value } })
+    router.push({ query: { ...route.query, page: currentPage.value } })
   } else {
     router.push('/')
   }
