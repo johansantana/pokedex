@@ -60,6 +60,7 @@ watch(imageReference, async () => {
         v-for="type in pokemonTypes"
         :key="type.name"
         size="sm"
+        class="mr-2"
         :class="typesColors[type.name]"
       >
         {{ capitalize(type.name) }}
