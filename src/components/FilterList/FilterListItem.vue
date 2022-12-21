@@ -1,6 +1,5 @@
 <script setup>
 import { capitalize } from 'vue'
-import AppBadge from '../AppBadge.vue'
 
 const props = defineProps({
   name: String
@@ -8,12 +7,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <AppBadge
-    class="cursor-pointer flex items-center justify-between gap-1 hover:scale-105 transition-transform"
+  <span
+    class="cursor-pointer hover:text-gray-700 hover:underline hover:decoration-wavy text-lg"
     @click="$router.push({ query: { type: props.name } })"
   >
-    <span>
-      {{ capitalize(props.name) }}
-    </span>
-  </AppBadge>
+    {{ capitalize(props.name) }}
+  </span>
 </template>
