@@ -1,14 +1,22 @@
-import { API_URL } from '.'
+import { API_URL, typesColors } from '.'
 import { Pokemon } from '../interfaces/pokemon.interface'
 import { useRoute } from 'vue-router'
 
 export const getPokemonsByPage = async (limit: number): Promise<Pokemon[]> => {
   try {
     const route = useRoute()
-    const page = route.query.page ?? 1
+    const page = route.query?.page ?? 1
     const offset = limit * (Number(page) - 1)
 
-    const result = await getAllPokemons()
+    const type = route.query?.type
+    if (!type) {
+      const result = await getAllPokemons()
+      return result.slice(offset, offset + limit)
+    }
+
+    const result = type
+      ? await getAllPokemonsByType(type)
+      : await getAllPokemons()
     return result.slice(offset, offset + limit)
   } catch (err) {
     throw new Error(err)
@@ -20,6 +28,24 @@ export const getAllPokemons = async (): Promise<Pokemon[]> => {
     const result = await fetch(`${API_URL}/pokemon/?limit=5000`)
     const data = await result.json()
     return data.results.map((pokemon: any) => {
+      return { ...pokemon, id: Number(pokemon.url.split('/').at(-2)) }
+    })
+  } catch (err) {
+    throw new Error(err)
+  }
+}
+
+export const getAllPokemonsByType = async (
+  type: string | string[]
+): Promise<Pokemon[]> => {
+  try {
+    const typeNumber =
+      Object.keys(typesColors).findIndex(elem => elem === type) + 1
+
+    const result = await fetch(`${API_URL}/type/${typeNumber}`)
+    const data = await result.json()
+    return data.pokemon.map((pokemonIndex: any) => {
+      const pokemon = pokemonIndex.pokemon
       return { ...pokemon, id: Number(pokemon.url.split('/').at(-2)) }
     })
   } catch (err) {

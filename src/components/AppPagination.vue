@@ -12,7 +12,10 @@ watch(currentPage, () => {
   if (currentPage.value != 1) {
     router.push({ query: { ...route.query, page: currentPage.value } })
   } else {
-    router.push('/')
+    if (!route.query.type) router.push('/')
+    else {
+      router.push({ name: 'Home', query: { type: route.query.type } })
+    }
   }
 })
 </script>
