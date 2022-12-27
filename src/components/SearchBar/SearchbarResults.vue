@@ -29,14 +29,14 @@ watch(
 </script>
 
 <template>
-  <div class="min-w-[500px]">
+  <div class="min-w-[500px] min-h-[256px]">
     <div v-if="!isLoading" class="flex flex-col">
       <PokemonSearchResult
         v-if="searchResults.length"
         v-for="pokemon in searchResults"
         :key="pokemon.id"
         :pokemon-id="pokemon.id"
-        class="border-t-2 border-t-slate-100"
+        class="border-t-2 border-y-slate-100"
       />
       <div v-else class="border-t-2 border-t-slate-100 p-5">
         <p class="text-slate-400 text-center">
