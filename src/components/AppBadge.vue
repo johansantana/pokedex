@@ -14,10 +14,10 @@ const lg = props.size === 'lg'
 <template>
   <span
     :class="{
-      'badge p-3 font-mono font-medium text-white border-none': sm,
-      'text-sm rounded-full text-left p-2 px-4 w-full font-mono font-medium text-white border-none':
+      'badge p-3 font-mono font-medium text-white': sm,
+      'text-sm rounded-full text-left p-2 px-4 font-mono font-medium text-white':
         md,
-      'badge text-lg p-4 font-mono font-medium text-white border-none': lg
+      'badge text-lg p-4 font-mono font-medium text-white': lg
     }"
   >
     <slot></slot>
