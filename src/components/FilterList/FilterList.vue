@@ -35,7 +35,7 @@ onClickOutside(filterReference, e => {
       <span class="text-lg text-slate-500 italic">Filter by:</span>
       <AppBadge
         v-if="$route.query.type"
-        class="border-red-500 border-2 p-2 text-red-500 hover:scale-105 hover:text-white hover:bg-red-500/80 hover:border-transparent transition flex cursor-pointer justify-between gap-3"
+        class="border-red-500 border-2 p-1 px-3 text-red-500 hover:scale-105 hover:text-white hover:bg-red-500/80 hover:border-transparent transition flex cursor-pointer gap-3"
         @click="$router.push('/')"
       >
         <span>{{ capitalize(typeFiltered) }}</span>
